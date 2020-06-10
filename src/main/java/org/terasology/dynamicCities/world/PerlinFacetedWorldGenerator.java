@@ -29,6 +29,7 @@ import org.terasology.core.world.generator.rasterizers.FloraRasterizer;
 import org.terasology.dynamicCities.region.RegionEntityProvider;
 import org.terasology.dynamicCities.region.ResourceProvider;
 import org.terasology.dynamicCities.region.RoughnessProvider;
+import org.terasology.dynamicCities.region.SlopeProvider;
 import org.terasology.dynamicCities.settlements.SettlementFacetProvider;
 import org.terasology.dynamicCities.sites.SiteFacetProvider;
 import org.terasology.dynamicCities.world.trees.DefaultTreeProvider;
@@ -85,6 +86,7 @@ public class PerlinFacetedWorldGenerator extends BaseFacetedWorldGenerator {
                 .addProvider(new DefaultTreeProvider())
                 //.addProvider(new PlateauProvider(spawnPos, seaLevel + 4, 10, 30))
                 .addProvider(new ResourceProvider())
+                .addProvider(new SlopeProvider())
                 .addEntities(new RegionEntityProvider())
                 .addRasterizer(new SolidRasterizer())
                 .addPlugins()
