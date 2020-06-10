@@ -39,7 +39,7 @@ public class SlopeProvider implements FacetProvider {
 
         for (BaseVector2i pos : processRegion.contents()) {
 
-            facet.calcSlope(new Vector2i(pos.x(), pos.y()), surfaceHeightFacet,1);
+            facet.calcSlope(new Vector2i(pos.x(), pos.y()), surfaceHeightFacet, 1);
 
         }
 
