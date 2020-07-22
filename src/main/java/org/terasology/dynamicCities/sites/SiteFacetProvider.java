@@ -35,9 +35,9 @@ import org.terasology.world.generation.facets.SurfaceHeightFacet;
  * Marks sites suitable to build settlements on
  */
 @Produces(SiteFacet.class)
-@Requires({ @Facet(RoughnessFacet.class),
-            @Facet(SeaLevelFacet.class),
-            @Facet(SurfaceHeightFacet.class)})
+@Requires({@Facet(RoughnessFacet.class),
+        @Facet(SeaLevelFacet.class),
+        @Facet(SurfaceHeightFacet.class)})
 public class SiteFacetProvider implements ConfigurableFacetProvider {
 
     private SiteConfiguration config = new SiteConfiguration();
@@ -50,6 +50,8 @@ public class SiteFacetProvider implements ConfigurableFacetProvider {
     public void process(GeneratingRegion region) {
 
         RoughnessFacet roughnessFacet = region.getRegionFacet(RoughnessFacet.class);
+        SeaLevelFacet seaLevelFacet = region.getRegionFacet(SeaLevelFacet.class);
+        int seaLevel = seaLevelFacet.getSeaLevel();
 
         Border3D border = region.getBorderForFacet(SiteFacet.class);
         Region3i coreReg = region.getRegion();
@@ -67,7 +69,7 @@ public class SiteFacetProvider implements ConfigurableFacetProvider {
             }
 
             // Removes sites that are too close to spawn. Spawn is assumed to be at (0, 0, 0).
-            if (minPos.length() > config.minSpawnGap) {
+            if ((minPos.length() > config.minSpawnGap) && (minPos.getY() > seaLevel)) {
                 SiteComponent siteComponent = new SiteComponent(minPos.getX(), minPos.getY());
                 siteFacet.setSiteComponent(siteComponent);
             }
@@ -95,10 +97,12 @@ public class SiteFacetProvider implements ConfigurableFacetProvider {
 
     private static class SiteConfiguration implements Component {
 
-        @Range(label = "Minimal town size", description = "Minimal town size in blocks", min = 1, max = 150, increment = 10, precision = 1)
+        @Range(label = "Minimal town size", description = "Minimal town size in blocks", min = 1, max = 150,
+                increment = 10, precision = 1)
         private int minRadius = 50;
 
-        @Range(label = "Maximum town population", description = "Maximum town population", min = 10, max = 350, increment = 10, precision = 1)
+        @Range(label = "Maximum town population", description = "Maximum town population", min = 10, max = 350,
+                increment = 10, precision = 1)
         private int maxPopulation = 100;
 
         @Range(label = "Minimum distance between towns", min = 10, max = 1000, increment = 10, precision = 1)
